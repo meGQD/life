@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Our Site</title>
+    <style>
+        /* Reset some basic styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #06402B;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            text-align: center;
+            padding: 40px;
+            background-color: #2B2B2B;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            color: #D8E9A8;
+            font-size: 36px;
+        }
+
+        p {
+            margin-bottom: 30px;
+            font-size: 18px;
+            color: #555;
+        }
+
+        .buttons a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 10px;
+            font-size: 16px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #066b46;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .buttons a:hover {
+            background-color: #099461;
+        }
+        
+        /* Error message styling */
+        .error-message {
+            color: #3eb92e;
+            background-color: #cfffcf;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #3eb92e;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error-message">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+
+        <h1>Welcome</h1>
+        <p>Please choose an option below to get started:</p>
+        <div class="buttons">
+            <a href="http://127.0.0.1:8000/login/">Login</a>
+            <a href="http://127.0.0.1:8000/signup/">Sign Up</a>
+        </div>
+    </div>
+</body>
+</html>

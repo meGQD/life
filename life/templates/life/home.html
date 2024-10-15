@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomePage</title>
+    <style>
+        /* Reset some basic styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #b4b0ab;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #333;
+            height: 100vh;
+        }
+
+        /* Navbar styling */
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            background-color: black;
+            width: 100%;
+            padding: 10px;
+            align-items: center;
+            border-radius: 0 0 10px 10px;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .button {
+            outline: 0 !important;
+            border: 0 !important;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all ease-in-out 0.3s;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+        }
+
+        .icon {
+            font-size: 20px;
+        }
+
+        /* Container styling */
+        .container {
+            text-align: center;
+            padding: 50px;
+            background-color: #000000;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 80px; /* Push content below the navbar */
+        }
+
+        h1 {
+            font-size: 36px;
+            color: #8B0000;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #F5F5F5;
+            margin-bottom: 30px;
+        }
+
+        /* Styling for the buttons container */
+        .buttons {
+            display: flex;
+            justify-content: center;
+            gap: 20px; /* Space between buttons */
+        }
+
+        /* Styling for Profile button */
+        .buttons a.profile {
+            display: inline-block;
+            padding: 1.3em 3em;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            font-weight: 500;
+            color: #000;
+            background-color: #fff;
+            border: none;
+            border-radius: 45px;
+            box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease 0s;
+            text-decoration: none;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .buttons a.profile:hover {
+            background-color: #005533;
+            box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+            color: #fff;
+            transform: translateY(-7px);
+        }
+
+        .buttons a.profile:active {
+            transform: translateY(-1px);
+        }
+
+        /* Gooey button styling for "How much you got left" */
+        .c-button {
+            font-weight: 700;
+            font-size: 16px;
+            text-decoration: none;
+            padding: 0.9em 1.6em;
+            cursor: pointer;
+            display: inline-block;
+            vertical-align: middle;
+            position: relative;
+            z-index: 1;
+            border-radius: 999px;
+        }
+
+        .c-button--gooey {
+            color: #b60000;
+            background-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border: 4px solid #8B0000;
+            position: relative;
+            transition: all 700ms ease;
+        }
+
+        .c-button--gooey .c-button__blobs {
+            height: 100%;
+            filter: url(#goo);
+            overflow: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: -3px;
+            right: -1px;
+            z-index: -1;
+            border-radius: 20px;
+        }
+
+        .c-button--gooey .c-button__blobs div {
+            background-color: #8B0000;
+            width: 34%;
+            height: 100%;
+            border-radius: 100%;
+            position: absolute;
+            transform: scale(1.4) translateY(125%) translateZ(0);
+            transition: all 700ms ease;
+        }
+
+        .c-button--gooey .c-button__blobs div:nth-child(1) {
+            left: -5%;
+        }
+
+        .c-button--gooey .c-button__blobs div:nth-child(2) {
+            left: 30%;
+            transition-delay: 60ms;
+        }
+
+        .c-button--gooey .c-button__blobs div:nth-child(3) {
+            left: 66%;
+            transition-delay: 25ms;
+        }
+
+        .c-button--gooey:hover {
+            color: #fff;
+        }
+
+        .c-button--gooey:hover .c-button__blobs div {
+            transform: scale(1.4) translateY(0) translateZ(0);
+        }
+        
+        /* Error message */
+        .error-message {
+            color: #ff4d4f;
+            background-color: #fff1f0;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ffa39e;
+            border-radius: 5px;
+        }
+
+        /* Sign-in */ 
+        .sign-in {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        outline: none;
+        cursor: pointer;
+        width: 100px;
+        height: 50px;
+        background-image: linear-gradient(to top, #D8D9DB 0%, #fff 80%, #FDFDFD 100%);
+        border-radius: 30px;
+        border: 1px solid #8F9092;
+        transition: all 0.2s ease;
+        font-family: "Source Sans Pro", sans-serif;
+        font-size: 14px;
+        font-weight: 600;
+        color: #606060;
+        text-shadow: 0 1px #fff;
+        margin-bottom: 20px;
+        margin-left: auto; /* This will push the button to the right */
+        margin-right: 20px; /* Optional: Add a bit of space from the right side */
+        }
+
+        .sign-in:hover {
+        box-shadow: 0 4px 3px 1px #3c3c3c, 0 6px 8px #3c3c3c, 0 -4px 4px #3c3c3c, 0 -6px 4px #3c3c3c, inset 0 0 3px 3px #3c3c3c;
+        }
+
+        .sign-in:active {
+        box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+        }
+
+        .sign-in:focus {
+        box-shadow: 0 4px 3px 1px #FCFCFC, 0 6px 8px #D6D7D9, 0 -4px 4px #CECFD1, 0 -6px 4px #FEFEFE, inset 0 0 5px 3px #999, inset 0 0 30px #aaa;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="button-container">
+        <button class="button" onclick="window.location.href='http://127.0.0.1:8000/life/home/'">
+            <svg class="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z"></path>
+            </svg>
+        </button>
+        <button class="button" onclick="window.location.href='http://127.0.0.1:8000/life/me/'">
+            <svg class="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Content -->
+    <div class="container">
+        <h1>Welcome</h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="error-message">{{ message }}</div>
+            {% endfor %}
+            <div class="buttons">
+                <button class="sign-in" onclick="window.location.href='http://127.0.0.1:8000/entry/'">Sign in</button>
+            </div>
+        {% endif %}
+
+        <div class="buttons">
+            <!-- Profile button -->
+            <a href="http://127.0.0.1:8000/life/me/" class="profile">Profile</a>
+
+            <!-- Gooey button -->
+            <a href="http://127.0.0.1:8000/life/remainingWeeks/">
+                <button class="c-button c-button--gooey">
+                    How much you got left
+                    <div class="c-button__blobs">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </button>
+            </a>
+            <svg style="display: block; height: 0; width: 0;" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <filter id="goo">
+                        <feGaussianBlur result="blur" stdDeviation="10"></feGaussianBlur>
+                        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo"></feColorMatrix>
+                        <feBlend in="SourceGraphic" in2="goo"></feBlend>
+                    </filter>
+                </defs>
+            </svg>
+        </div>
+        </div>
+    </div>
+</body>
+</html>

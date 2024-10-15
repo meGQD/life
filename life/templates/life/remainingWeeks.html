@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"> <!-- Link to Font Awesome for icons -->
+    <title>Life Tracker</title>
+    <style>
+        body {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            background: #0f0f0f;
+            color: black;
+        }
+
+        /* Navbar styling */
+        .button-container {
+            display: flex;
+            justify-content: space-around;
+            background-color: black;
+            width: 100%;
+            padding: 10px;
+            align-items: center;
+            border-radius: 0 0 10px 10px;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .button {
+            outline: 0 !important;
+            border: 0 !important;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all ease-in-out 0.3s;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            transform: translateY(-3px);
+        }
+
+        .icon {
+            font-size: 20px;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 80px; /* Adjust for the fixed navbar */
+        }
+
+        .life-header {
+            font-size: 2.5rem;
+            background-color: rgb(21, 21, 21);
+            display: inline-block;
+            padding: 3px 15px;
+            border-radius: 10px;
+            margin-bottom: 5px;
+            color: white;
+        }
+
+        /* Main flexbox container for years and weeks */
+        .year-grid {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        /* Each row that contains a year number and the corresponding weeks */
+        .year-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 3px;
+            white-space: nowrap;
+        }
+
+        /* Styling for year number */
+        .year-number{
+            font-weight: bold;
+            font-size: 1rem;
+            margin-right: 10px;
+            width: 30px;
+            text-align: right;
+            color: #CED0CE;
+        }
+
+        /* Flex container for week circles */
+        .week-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: flex-start;
+            gap: 2px; /* Add consistent spacing between each week */
+        }
+
+        /* Styling for each week circle */
+        .week-circle {
+            width: 15px;
+            height: 15px;
+            background-color: #CED0CE;
+            border-radius: 50%;
+        }
+
+        /* Crossed-out styling for passed weeks */
+        .week-circle.crossed {
+            background-color: #710000;
+        }
+
+        /* Extra space after every 4 weeks to represent months */
+        .week-grid .week-circle:nth-child(4n+1) {
+            margin-left: 10px; /* Extra space after every 4 weeks */
+        }
+        .year-grid .year-row:nth-child(10n){
+            margin-bottom: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="button-container">
+        <button class="button" onclick="window.location.href='http://127.0.0.1:8000/life/home/'">
+            <svg class="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z"></path>
+            </svg>
+        </button>
+        <button class="button" onclick="window.location.href='http://127.0.0.1:8000/life/me/'">
+            <svg class="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z"></path>
+            </svg>
+        </button>
+    </div>
+    
+    <div class="container">
+        <div class="life-header">Life Tracker</div>
+    </div>
+
+    <!-- Flexbox grid of Year Rows with Week Circles -->
+    <div class="year-grid" id="year-grid"></div>
+
+    <script>
+        // Example values for passed and remaining weeks from Django template context
+        const passedWeeks = {{ passed_weeks }};
+        const remainingWeeks = {{ remaining_weeks }};
+        const totalWeeks = passedWeeks + remainingWeeks;
+        const years = Math.ceil(totalWeeks / 52); // Calculate total years based on weeks
+
+        const yearGrid = document.getElementById('year-grid');
+
+        let weekCounter = 0;
+
+        // Loop through each year and create a row for it
+        for (let year = 0; year < years; year++) {
+            const yearRow = document.createElement('div');
+            yearRow.classList.add('year-row');
+
+            // Create year number
+            const yearNumber = document.createElement('div');
+            yearNumber.classList.add('year-number');
+            yearNumber.innerText = year + 1;
+            yearRow.appendChild(yearNumber);
+
+            // Create week grid for this year (52 weeks)
+            const weekGrid = document.createElement('div');
+            weekGrid.classList.add('week-grid');
+
+            // Create 52 weeks (circles) for each year
+            for (let week = 0; week < 52; week++) {
+                const weekCircle = document.createElement('div');
+                weekCircle.classList.add('week-circle');
+
+                // Mark the circle as passed if it's within the passedWeeks count
+                if (weekCounter < passedWeeks) {
+                    weekCircle.classList.add('crossed');
+                }
+
+                weekGrid.appendChild(weekCircle);
+                weekCounter++;
+
+                // Stop if we've reached the total weeks (passed + remaining)
+                if (weekCounter >= totalWeeks) {
+                    break;
+                }
+            }
+
+            yearRow.appendChild(weekGrid);
+            yearGrid.appendChild(yearRow);
+
+            // Stop the loop if all weeks are filled
+            if (weekCounter >= totalWeeks) {
+                break;
+            }
+        }
+    </script>
+</body>
+</html>

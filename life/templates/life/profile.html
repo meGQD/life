@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Norwester&display=swap" rel="stylesheet">
+    <style>
+        /* Styling the full page with a gradient background */
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: #b4b0ab;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Navbar styling */
+        .nav-button-container {
+            display: flex;
+            justify-content: space-around;
+            background-color: black;
+            width: 100%;
+            padding: 10px;
+            align-items: center;
+            border-radius: 0 0 10px 10px;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+
+        .nav-button {
+            outline: 0 !important;
+            border: 0 !important;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            transition: all ease-in-out 0.3s;
+            cursor: pointer;
+        }
+
+        .nav-button:hover {
+            transform: translateY(-3px);
+            background-color: #000000;
+        }
+
+        .icon {
+            font-size: 20px;
+        }
+
+
+        /* Profile container */
+        .profile-container {
+            background-color: #000;
+            border-radius: 10px;
+            padding: 30px;
+            color: white;
+            width: 80%;
+            max-width: 1000px;
+            text-align: center;
+            position: relative;
+            margin-top: 80px; /* Push the profile container below the navbar */
+        }
+
+        /* Profile title */
+        .profile-title {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 30px;
+            font-family: 'Norwester', sans-serif;
+        }
+
+        /* Field container for inputs and labels */
+        .profile-field {
+            background-color: #333;
+            border-radius: 5px;
+            margin: 10px 0;
+            padding: 15px;
+            font-size: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Field label styling */
+        .profile-label {
+            margin-right: 10px;
+            font-weight: bold;
+            text-align: left;
+            flex-basis: 40%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* Text values displayed for profile */
+        .profile-value {
+            text-align: right;
+            flex-basis: 60%;
+        }
+
+        /* Editable input fields */
+        .profile-input {
+            width: 100%;
+            padding: 8px;
+            font-size: 1rem;
+            color: #000;
+            text-align: left;
+            border-radius: 5px;
+            border: 1px solid #555;
+        }
+
+        /* Button styling */
+        .edit-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.1rem;
+            background-color: #006d0f;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .edit-button:hover {
+            background-color: #00cb1b;
+        }
+
+        /* Logout button container */
+        .logout-container {
+            position: absolute;
+            bottom: 20px; /* Distance from the bottom */
+            right: 20px;  /* Distance from the right */
+        }
+
+        .buttons a {
+            position: absolute;
+            bottom: 30px; /* Distance from the bottom */
+            right: 30px;  /* Distance from the right */
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            text-decoration: none;
+            color: #fff;
+            background-color: rgb(93, 0, 0);
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        .buttons a:hover {
+            background-color: red;
+        }
+
+    </style>
+    <script>
+        // Function to switch to edit mode by showing input fields
+        function enableEditMode() {
+            document.getElementById('display-section').style.display = 'none';  // Hide display section
+            document.getElementById('edit-section').style.display = 'block';   // Show edit section
+        }
+
+        // Function to handle the PUT request for updating customer and user details
+        function saveDetails() {
+            // Get the values from the input fields
+            const firstName = document.getElementById('first_name').value;
+            const lastName = document.getElementById('last_name').value;
+            const birthDate = document.getElementById('birth_date').value;
+            const expectedDeath = document.getElementById('expected_death_date').value;
+
+            // Prepare the data for the PUT request
+            const data = {
+                first_name: firstName,
+                last_name: lastName,
+                birth_date: birthDate,
+                expected_death_date: expectedDeath
+            };
+
+            // Make the PUT request using fetch
+            fetch("{% url 'me' %}", {  // Adjust the URL to match your update endpoint
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}',  // CSRF token for security
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data) {
+                    alert('Profile updated successfully');
+                    location.reload();  // Reload the page to reflect updated data
+                } else {
+                    alert('Failed to update profile');
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</head>
+<body>
+
+    <!-- Navbar -->
+    <div class="nav-button-container">
+        <button class="nav-button" onclick="window.location.href='http://127.0.0.1:8000/life/home/'">
+            <svg class="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M946.5 505L560.1 118.8l-25.9-25.9a31.5 31.5 0 0 0-44.4 0L77.5 505a63.9 63.9 0 0 0-18.8 46c.4 35.2 29.7 63.3 64.9 63.3h42.5V940h691.8V614.3h43.4c17.1 0 33.2-6.7 45.3-18.8a63.6 63.6 0 0 0 18.7-45.3c0-17-6.7-33.1-18.8-45.2zM568 868H456V664h112v204zm217.9-325.7V868H632V640c0-22.1-17.9-40-40-40H432c-22.1 0-40 17.9-40 40v228H238.1V542.3h-96l370-369.7 23.1 23.1L882 542.3h-96.1z"></path>
+            </svg>
+        </button>
+        <button class="nav-button" onclick="window.location.href='http://127.0.0.1:8000/life/me/'">
+            <svg class="icon" stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2.5a5.5 5.5 0 0 1 3.096 10.047 9.005 9.005 0 0 1 5.9 8.181.75.75 0 1 1-1.499.044 7.5 7.5 0 0 0-14.993 0 .75.75 0 0 1-1.5-.045 9.005 9.005 0 0 1 5.9-8.18A5.5 5.5 0 0 1 12 2.5ZM8 8a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z"></path>
+            </svg>
+        </button>
+    </div>
+
+    <!-- Profile container that holds the profile info -->
+    <div class="profile-container">
+        <!-- Profile title -->
+        <div class="profile-title">PROFILE</div>
+
+        <!-- Display section with plain text -->
+        <div id="display-section">
+            <div class="profile-field">
+                <div class="profile-label">First Name:</div>
+                <div class="profile-value">{{ customer_details.first_name }}</div>
+            </div>
+
+            <div class="profile-field">
+                <div class="profile-label">Last Name:</div>
+                <div class="profile-value">{{ customer_details.last_name }}</div>
+            </div>
+
+            <div class="profile-field">
+                <div class="profile-label">Birth Date:</div>
+                <div class="profile-value">{{ customer_details.birth_date }}</div>
+            </div>
+
+            <div class="profile-field">
+                <div class="profile-label">Death Date:</div>
+                <div class="profile-value">{{ customer_details.expected_death_date }}</div>
+            </div>
+
+            <!-- Logout button container -->
+            <div class="buttons">
+                <a href="http://127.0.0.1:8000/logout/">Log out</a>
+            </div>
+
+            <!-- Edit button to enable edit mode -->
+            <button class="edit-button" onclick="enableEditMode()">Edit</button>
+        </div>
+
+        <!-- Edit section with input fields (initially hidden) -->
+        <div id="edit-section" style="display: none;">
+            <form id="editForm" onsubmit="event.preventDefault(); saveDetails();">
+
+                <div class="profile-field">
+                    <label class="profile-label" for="first_name">First Name:</label>
+                    <input type="text" id="first_name" class="profile-input" value="{{ customer_details.first_name }}">
+                </div>
+
+                <div class="profile-field">
+                    <label class="profile-label" for="last_name">Last Name:</label>
+                    <input type="text" id="last_name" class="profile-input" value="{{ customer_details.last_name }}">
+                </div>
+
+                <div class="profile-field">
+                    <label class="profile-label" for="birth_date">Birth Date:</label>
+                    <input type="date" id="birth_date" class="profile-input" value="{{ customer_details.birth_date }}">
+                </div>
+
+                <div class="profile-field">
+                    <label class="profile-label" for="expected_death_date">Expected Death Date:</label>
+                    <input type="date" id="expected_death_date" class="profile-input" value="{{ customer_details.expected_death_date }}">
+                </div>
+
+                <!-- Save button to submit the form -->
+                <button class="edit-button" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+
+</body>
+</html>
