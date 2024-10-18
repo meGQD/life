@@ -46,5 +46,19 @@ def signup_view(request):
         serializer.save()
         messages.success(request, 'Account created successfully. You can log in now.')
         return redirect('/auth/login/')
-    
+
     return render(request, 'core/signup.html')
+
+# @api_view(['GET', 'POST'])
+# @permission_classes([IsNotAuthenticated])
+# def signup_view(request):
+#     if request.method == 'POST':
+#         serializer = UserCreateSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             messages.success(request, 'Account created successfully. You can log in now.')
+#             return redirect('/auth/login/')
+#         else:
+#             messages.error(request)
+    
+#     return render(request, 'core/signup.html')
