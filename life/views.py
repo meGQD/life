@@ -50,9 +50,8 @@ def remaining_weeks(request):
 
 @api_view()
 def customers(request):
-
-    customer = Customer.objects.all()
-
-    serializer = CustomerSerializer(customer, many=True)
-
-    return Response(serializer.data)
+    if request.user.is_staff:
+        customer = Customer.objects.all()
+        serializer = CustomerSerializer(customer, many=True)
+        return Response(serializer.data)
+    return Response("You dont have permission G")
