@@ -55,4 +55,5 @@ def customers(request):
         serializer = CustomerSerializer(customer, many=True)
         return Response(serializer.data)
     messages.error(request, "You dont have permission G")
-    return redirect('home')
+    return render(request, 'life/home.html')
+
