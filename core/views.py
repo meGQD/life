@@ -25,7 +25,7 @@ def login_view(request):
         if user is not None:
             login(request, user) 
 
-            return redirect('http://127.0.0.1:8000')
+            return redirect('home')
         
         else:
             messages.error(request, 'Invalid username or password')
@@ -42,23 +42,13 @@ def logout_view(request):
 def signup_view(request):
     if request.method == 'POST':
         serializer = UserCreateSerializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        serializer.save()
-        messages.success(request, 'Account created successfully. You can log in now.')
-        return redirect('/auth/login/')
-
-    return render(request, 'core/signup.html')
-
-# @api_view(['GET', 'POST'])
-# @permission_classes([IsNotAuthenticated])
-# def signup_view(request):
-#     if request.method == 'POST':
-#         serializer = UserCreateSerializer(data=request.data)
-#         if serializer.is_valid():
-#             serializer.save()
-#             messages.success(request, 'Account created successfully. You can log in now.')
-#             return redirect('/auth/login/')
-#         else:
-#             messages.error(request)
+        if serializer.is_valid():
+            serializer.save()
+            messages.success(request, 'Account created successfully. You can log in now.')
+            return redirect('/auth/login/')
+        else:
+            for field,errors in serializer.errors.items():
+                for error in errors:
+                    messages.error(request, error)
     
-#     return render(request, 'core/signup.html')
+    return render(request, 'core/signup.html')

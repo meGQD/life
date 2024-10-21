@@ -54,4 +54,5 @@ def customers(request):
         customer = Customer.objects.all()
         serializer = CustomerSerializer(customer, many=True)
         return Response(serializer.data)
-    return Response("You dont have permission G")
+    messages.error(request, "You dont have permission G")
+    return redirect('home')

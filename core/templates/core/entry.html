@@ -81,8 +81,8 @@
         <h1>Welcome</h1>
         <p>Please choose an option below to get started:</p>
         <div class="buttons">
-            <a href="http://127.0.0.1:8000/auth/login/">Login</a>
-            <a href="http://127.0.0.1:8000/auth/signup/">Sign Up</a>
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'signup' %}">Sign Up</a>
         </div>
     </div>
 </body>
