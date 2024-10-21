@@ -20,9 +20,9 @@ from django.views.generic import TemplateView
 import debug_toolbar
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('management/', admin.site.urls,),
     path('life/', include('life.urls')),
     path('auth/', include('core.urls')),
     path('__debug__/', include(debug_toolbar.urls)),
-    path('', TemplateView.as_view(template_name='life/home.html')),
+    path('', TemplateView.as_view(template_name='life/home.html'), name='home'),
 ]
