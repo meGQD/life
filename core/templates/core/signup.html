@@ -1,123 +1,13 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #06402B;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
 
-        /* Navbar styling */
-        .nav-button-container {
-            display: flex;
-            justify-content: space-around;
-            background-color: black;
-            width: 100%;
-            padding: 10px;
-            align-items: center;
-            border-radius: 0 0 10px 10px;
-            position: fixed;
-            top: 0;
-            left: 0;
-        }
-
-        .nav-button {
-            outline: 0 !important;
-            border: 0 !important;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background-color: transparent;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            transition: all ease-in-out 0.3s;
-            cursor: pointer;
-        }
-
-        .nav-button:hover {
-            transform: translateY(-3px);
-            background-color: #000000;
-        }
-
-        .icon {
-            font-size: 20px;
-        }
-
-        .signup-container {
-            background-color: #2B2B2B;
-            padding: 40px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            width: 350px;
-            text-align: center;
-            margin-top: 50px;
-        }
-
-        h2 {
-            color: #D8E9A8;
-            margin-bottom: 20px;
-            font-size: 24px;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            font-size: 14px;
-            color: #fff;
-            margin-bottom: 8px;
-            text-align: left;
-        }
-
-        input {
-            padding: 10px;
-            margin-bottom: 15px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-            font-size: 16px;
-        }
-
-        button {
-            padding: 10px;
-            background-color: #28a745;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #218838;
-        }
-
-        input[type="date"] {
-            cursor: pointer;
-        }
-
-        /* Error message styling */
-        .error-message {
-            color: #c83030;
-            background-color: #ffa9a9;
-            padding: 10px;
-            margin-bottom: 20px;
-            border: 1px solid #b92e2e;
-            border-radius: 5px;
-        }
-    </style>
 </head>
+    <link rel="stylesheet" href="{% static 'core/styles.css' %}">
 <body>
 
     <!-- Navbar -->
@@ -160,7 +50,7 @@
             
             {% if messages %}
                 {% for message in messages %}
-                    <div class="error-message">{{ message }}</div>
+                    <div class="red-error-message">{{ message }}</div>
                 {% endfor %}
             {% endif %}
 
