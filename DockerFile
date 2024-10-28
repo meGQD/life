@@ -16,8 +16,8 @@ RUN pipenv install
 COPY . /app/
 
 CMD pipenv run python manage.py migrate && \
-    pipenv run python manage.py collectstatic && \
-    pipenv run gunicorn storefront.wsgi
+    pipenv run python manage.py collectstatic --no-input && \
+    pipenv run gunicorn -bind 0.0.0.0:2727 storefront.wsgi
 
 
 
