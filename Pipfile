@@ -13,6 +13,7 @@ djangorestframework = "*"
 drf-nested-routers = "*"
 django-debug-toolbar = "*"
 whitenoise = "*"
+gunicorn = "*"
 
 [dev-packages]
 
