@@ -1,20 +1,15 @@
 services:
-  web:
-    build: .
-    command: sh -c "python manage.py migrate && gunicorn --bind 0.0.0.0:8000 lifefront.wsgi:application --workers 3 --timeout 60"
-    environment:
-      - DJANGO_SETTINGS_MODULE=lifefront.settings.prod
-      - SECRET_KEY=fd9+if!o&4mdn5dixonjirs%t4453h_&%a26=t0j*v1sm_+2k_
+  - type: web
+    name: django-web-app
+    env: docker
+    plan: starter  # or use 'standard' if you need more resources
+    dockerfilePath: Dockerfile
+    envVars:
+      - key: DJANGO_SETTINGS_MODULE
+        value: lifefront.settings.prod
+      - key: SECRET_KEY
+        value: fd9+if!o&4mdn5dixonjirs%t4453h_&%a26=t0j*v1sm_+2k_
+    buildCommand: "python manage.py migrate"
+    startCommand: "gunicorn --bind 0.0.0.0:8000 lifefront.wsgi:application --workers 3 --timeout 60"
     ports:
-      - "8000:8000"
-    # volumes:
-    #   - ./db.sqlite3:/app/db.sqlite3
-
-  nginx:
-    image: nginx
-    ports:
-      - "80:80"
-    volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf
-    depends_on:
-      - web
+      - 8000  # Expose Django on this port
