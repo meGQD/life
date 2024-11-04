@@ -17,6 +17,9 @@ RUN pipenv install --deploy --ignore-pipfile
 
 COPY . /app/
 
+CMD python manage.py migrate && \
+    gunicorn lifefront.wsgi:application --workers 3 --timeout 60
+
 # Step 2: Production Stage
 FROM python:3.11.10-alpine3.20
 
