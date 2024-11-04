@@ -35,4 +35,4 @@ RUN pipenv install --system --deploy --ignore-pipfile
 # Set up the command
 CMD python manage.py collectstatic --no-input && \ 
     python manage.py migrate && \ 
-    gunicorn lifefront.wsgi:application --workers 3 --timeout 60
+    gunicorn --bind 0.0.0.0:8000 lifefront.wsgi:application --workers 3 --timeout 60
