@@ -9,5 +9,3 @@ services:
         value: lifefront.settings.prod
       - key: SECRET_KEY
         value: fd9+if!o&4mdn5dixonjirs%t4453h_&%a26=t0j*v1sm_+2k_
-    buildCommand: "python manage.py migrate"
-    startCommand: "gunicorn --bind 0.0.0.0:8000 lifefront.wsgi:application --workers 3 --timeout 60"
