@@ -2,6 +2,6 @@
     "cron": [
       "0 0 * * 0 cd $ROOT && python manage.py collectstatic --no-input >> /dev/null 2>&1",
       "0 0 * * 0 cd $ROOT && python manage.py migrate",
-      "0 0 * * 0 cd $ROOT && gunicorn lifefront.wsgi:application"
+      "0 0 * * 0 cd $ROOT && gunicorn --bind 0.0.0.0:8000 lifefront.wsgi:application --workers 3 --timeout 60"
     ]
 }
