@@ -1,18 +1,10 @@
 from datetime import date
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from rest_framework import status
-from rest_framework.decorators import action, permission_classes, api_view
-from rest_framework.exceptions import NotFound
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
-from rest_framework.viewsets import ModelViewSet, GenericViewSet
-from rest_framework.mixins import CreateModelMixin, DestroyModelMixin, RetrieveModelMixin, UpdateModelMixin
-from rest_framework.permissions import AllowAny, DjangoModelPermissions, DjangoModelPermissionsOrAnonReadOnly, IsAdminUser, IsAuthenticated
 from .models import Customer
 from .serializers import CustomerSerializer
-from .permissions import IsNotLoggedIn
-from django.contrib.auth import base_user
 
 @api_view(['GET', 'PUT'])
 def me(request):

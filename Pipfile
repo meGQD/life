@@ -5,12 +5,9 @@ name = "pypi"
 
 [packages]
 django = "*"
-psycopg2-binary = "*"
 djoser = "*"
-djangorestframework-simplejwt = "*"
 djangorestframework = "*"
 drf-nested-routers = "*"
-django-debug-toolbar = "*"
 whitenoise = "*"
 gunicorn = "*"
 

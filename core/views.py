@@ -1,15 +1,7 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login, logout, get_user_model
-from rest_framework.views import APIView
+from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from django.views.decorators.csrf import csrf_exempt
-from djoser.views import UserViewSet
 from rest_framework.decorators import permission_classes ,api_view
-from rest_framework.permissions import AllowAny, IsAdminUser
-from rest_framework.viewsets import ModelViewSet
-from rest_framework.mixins import CreateModelMixin
-from rest_framework.response import Response
-from rest_framework import status
 from .serializers import UserCreateSerializer
 from .permissions import IsNotAuthenticated
 
