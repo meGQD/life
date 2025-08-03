@@ -17,12 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-import debug_toolbar
 
 urlpatterns = [
     path('management/', admin.site.urls,),
     path('life/', include('life.urls')),
     path('auth/', include('core.urls')),
-    path('__debug__/', include(debug_toolbar.urls)),
     path('', TemplateView.as_view(template_name='life/home.html'), name='home'),
 ]

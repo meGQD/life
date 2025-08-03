@@ -1,9 +1,5 @@
 from django.urls import path
-from django.urls.conf import include
 from django.views.generic import TemplateView
-from djoser.views import UserViewSet
-from rest_framework_nested import routers
-from rest_framework.permissions import AllowAny
 from . import views
 
 urlpatterns = [
